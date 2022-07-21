@@ -144,8 +144,8 @@ if (isset($data['comments'])) {
                     </tr>
                     <tr>
                         <td colspan="3" style="text-align: left; height: 100%">
-                            <a class="edit"></a>
-                            <a class="password"></a>
+                            <a href="panel/profile" class="edit"></a>
+                            <a href="panel/changepass" class="password"></a>
                         </td>
                     </tr>
                 </table>

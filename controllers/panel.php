@@ -13,7 +13,7 @@ class Panel extends Controller
         }
     }
 
-    function index()
+    function index($activeTab='message')
     {
         $comments=$this->model->getComment();
         $userInfo = $this->model->getUserInfo();
@@ -22,7 +22,7 @@ class Panel extends Controller
         $order = $this->model->getOrder();
         $folder = $this->model->getFolder();
         $code=$this->model->getCode();
-        $data = ['userInfo' => $userInfo, 'stat' => $Stat, 'message' => $message, 'order' => $order, 'folder' => $folder,'comments'=>$comments,'code'=>$code];
+        $data = ['userInfo' => $userInfo, 'stat' => $Stat, 'message' => $message, 'order' => $order, 'folder' => $folder,'comments'=>$comments,'code'=>$code,'activeTab'=>$activeTab];
         $this->view('panel/index', $data);
     }
 
@@ -64,5 +64,27 @@ class Panel extends Controller
 
     function saveCode(){
         $this->saveCode($_POST);
+    }
+
+    function profile(){
+        $userInfo= $this->model->getUserInfo();
+        $data=['userInfo'=>$userInfo];
+        $this->view('panel/profile',$data);
+    }
+
+    function editprofile(){
+        $data=$_POST;
+        $this->model->editProfile($data);
+        header('location:'.URL.'panel/profile');
+    }
+
+    function changepass(){
+        $this->view('panel/changepass');
+    }
+
+    function editpass(){
+        $data=$_POST;
+        $this->model->editPass($data);
+//        header('location:'.URL.'panel/profile');
     }
 }

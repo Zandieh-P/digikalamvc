@@ -143,20 +143,21 @@ class model_panel extends Model
         $userId = $this->userId;
         $sql = "select * from tbl_code where userId=?";
         $result = $this->doSelect($sql, [$userId]);
+
+        $today_date = self::jaliliDate();
+        /*$today_date=date('Y/m/d');
+        $today_date=explode('/',$today_date);;
+        $today_date=gregorian_to_jalali($today_date[0],$today_date[1],$today_date[2]);
+        $today_date=implode('/',$today_date);
+        //var_dump($today_date);*/
+        $today = new DateTime($today_date);
+
         foreach ($result as $key => $row) {
             $sql = 'select * from tbl_order where code=? and userId=?';
             $params = [$row['code'], $userId];
             $orders = $this->doSelect($sql, $params);
             $result[$key]['orders'] = $orders;
 
-            $today=date('Y/m/d');
-            /*$today=explode('/',$today);;
-            $today=gregorian_to_jalali($today[0],$today[1],$today[2]);
-            $today=implode('/',$today);
-            var_dump($today);
-            $today = self::jaliliDate();
-            var_dump($today);*/
-            $today = new DateTime($today);
             $date_end = $row['tarikh_end'];
             $expire = new DateTime($date_end);
             $status = '';
@@ -176,5 +177,38 @@ class model_panel extends Model
         $userId = $this->userId;
         $sql = 'update tbl_code set userId=? where code=?';
         $this->doQuery($sql, [$userId, $code]);
+    }
+
+    function editProfile($data=[]){
+        $userId = $this->userId;
+        $day=$data['day'];
+        $month=$data['month'];
+        $year=$data['year'];
+        $date=$year.'/'.$month.'/'.$day;
+        $sql = 'update tbl_user set family=?,code_meli=?,tel=?,mobile=?,tavalod=?,address=?,jensiat=?,khabarname=? where id=?';
+        $params=[$data['family'],$data['code_meli'],$data['tel'],$data['mobile'],$date,$data['address'],$data['jensiat'],$data['khabarname'],$userId];
+        $this->doQuery($sql, $params);
+    }
+
+    function editPass($data=[]){
+        $pass_old=$data['pass_old'];
+        $pass_new=$data['pass_new'];
+        $pass_confirm =$data['pass_confirm'];
+        $error='';
+        $userInfo= $this->getUserInfo();
+        $password=$userInfo['password'];
+        $userId = $this->userId;
+        if($password==$pass_old){
+            if ($pass_new==$pass_confirm){
+                $sql = 'update tbl_user set password=? where id=?';
+                $params=[$pass_new,$userId];
+                $this->doQuery($sql, $params);
+            }else{
+                $error='تاییدیه رمز عبور صحیح نیست';
+            }
+        }else{
+            $error='پسورد فعلی نادرست است';
+        }
+        header('location:'.URL.'panel/changepass?error='.$error);
     }
 }

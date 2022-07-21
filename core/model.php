@@ -221,8 +221,8 @@ class Model
         return $data;
     }
 
-    public static function jaliliDate(){
-        $date=jdate('Y/n/j');
+    public static function jaliliDate($format='Y/n/j'){
+        $date=jdate($format);
         return $date;
     }
 }

@@ -3397,7 +3397,7 @@ main #search__content {
     margin-left: 30px;
 }
 
-#PaymentError {
+#PaymentError, #changePassError {
     border: 1px solid red;
     text-align: center;
     padding: 10px;
@@ -3768,7 +3768,18 @@ table.category_list td, table.product_list td {
     border: 1px solid #ccc;
 }
 
-    /**********addComment**********/
+/**********addComment**********/
+
+#changePassSuccess {
+    border: 1px solid green;
+    text-align: center;
+    padding: 10px;
+    font-size: 13pt;
+    font-family: Yekan, sans-serif;
+    color: green;
+}
+
+/**********addComment**********/
 
 
 .green {
