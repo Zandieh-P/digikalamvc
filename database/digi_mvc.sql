@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2022 at 12:01 PM
+-- Generation Time: Jul 24, 2022 at 03:17 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -72,7 +72,8 @@ INSERT INTO `tbl_basket` (`id`, `cookie`, `idproduct`, `tedad`, `color`, `guaran
 (3, '1658228143', 25, 2, 3, 3),
 (4, '1658388683', 25, 2, 1, 4),
 (5, '1658388683', 25, 2, 3, 4),
-(6, '1658388683', 25, 1, 4, 4);
+(6, '1658388683', 25, 1, 4, 4),
+(7, '1658561826', 25, 2, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -119,7 +120,7 @@ CREATE TABLE `tbl_code` (
 --
 
 INSERT INTO `tbl_code` (`id`, `code`, `used`, `darsad`, `userId`, `tarike_sabt`, `tarikh_end`, `max`) VALUES
-(1, 'digikala', 0, 20, 1, '2022/07/21', '2022/7/23', 3);
+(1, 'digikala', 0, 20, 1, '2022/07/21', '1401/5/1', 3);
 
 -- --------------------------------------------------------
 
@@ -160,15 +161,16 @@ CREATE TABLE `tbl_comment` (
   `disliked` int(255) NOT NULL,
   `idproduct` int(255) NOT NULL,
   `param` text COLLATE utf8mb4_persian_ci NOT NULL,
-  `user` int(255) NOT NULL
+  `user` int(255) NOT NULL,
+  `confirm` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
 --
 -- Dumping data for table `tbl_comment`
 --
 
-INSERT INTO `tbl_comment` (`id`, `title`, `content`, `date`, `positive`, `negative`, `liked`, `disliked`, `idproduct`, `param`, `user`) VALUES
-(1, 'حیف که دو سیم کارته نبود', 'من اینو خریدم خیلی راضی بودم', '22 تیر 1300', 'بدنه محکم-شارژ زیاد نگه میداره', 'تک سیم کارته', 10, 2, 25, 'a:3:{i:1;i:3;i:2;i:1;i:3;i:4;}', 1);
+INSERT INTO `tbl_comment` (`id`, `title`, `content`, `date`, `positive`, `negative`, `liked`, `disliked`, `idproduct`, `param`, `user`, `confirm`) VALUES
+(1, 'حیف که دو سیم کارته نبود', 'من اینو خریدم خیلی راضی بودم', '22 تیر 1300', 'بدنه محکم-شارژ زیاد نگه میداره', 'تک سیم کارته', 10, 2, 25, 'a:3:{i:1;i:3;i:2;i:1;i:3;i:4;}', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -331,7 +333,12 @@ INSERT INTO `tbl_option` (`id`, `setting`, `value`) VALUES
 (1, 'special_time', '54000'),
 (2, 'limit_slider', '5'),
 (3, 'tel', '021-99999'),
-(4, 'email', 'clicksite.ir@gmail.com');
+(4, 'email', 'clicksite.ir@gmail.com'),
+(5, 'root', 'http://localhost/digikalamvc/'),
+(6, 'zarinpalMID', 'xxxxxxxx-xxxx-xxxx-xxxxxxxxxxxx'),
+(7, 'body_color', '#F6F8FA'),
+(8, 'menu_color', '#F7F8FA'),
+(9, 'mohlatPay', '24');
 
 -- --------------------------------------------------------
 
@@ -369,15 +376,16 @@ CREATE TABLE `tbl_order` (
   `time_sabt` int(255) NOT NULL,
   `date` varchar(30) COLLATE utf8mb4_persian_ci NOT NULL,
   `barcode` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL,
-  `code` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL
+  `code` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL,
+  `tarikh` varchar(50) COLLATE utf8mb4_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
 --
 -- Dumping data for table `tbl_order`
 --
 
-INSERT INTO `tbl_order` (`id`, `beforePay_reservation`, `afterPay_reference`, `amount`, `family`, `reverse`, `state`, `city`, `postalcode`, `mobile`, `tel`, `postType`, `basket`, `address`, `postPrice`, `userId`, `status`, `pay`, `payType`, `pay_day`, `pay_month`, `pay_year`, `pay_card`, `pay_bank_name`, `pay_hour`, `pay_minute`, `time_sabt`, `date`, `barcode`, `code`) VALUES
-(1, '1234', '5678', 15400, 'محمدی', 0, 'تهران', 'تهران', '2374239807', '092394372', '2233455', 2, 'a:1:{i:0;a:20:{s:5:\"tedad\";s:1:\"2\";s:9:\"basketRow\";s:1:\"3\";s:2:\"id\";s:2:\"25\";s:5:\"title\";s:41:\"گوشی موبایل سامسونگ T12F\";s:5:\"price\";s:5:\"10000\";s:3:\"cat\";s:2:\"35\";s:12:\"introduction\";s:90:\"<p>معرفی اجمالی محصول&nbsp;گوشی موبایل سامسونگ T12F</p>\r\n\";s:12:\"tedad_mojood\";s:1:\"3\";s:8:\"discount\";s:1:\"5\";s:7:\"special\";s:1:\"1\";s:12:\"time_special\";s:1:\"0\";s:14:\"onlyInDigikala\";s:1:\"1\";s:6:\"viewed\";s:2:\"15\";s:6:\"colors\";s:5:\"1,3,4\";s:9:\"guarantee\";s:5:\"1,3,4\";s:10:\"idcategory\";s:2:\"35\";s:6:\"weight\";s:1:\"0\";s:10:\"colorTitle\";s:8:\"قرمز\";s:14:\"guaranteeTitle\";s:27:\"گارانتی شماره 3\";s:13:\"discountTotal\";i:1000;}}', 'یسنتبسخباسمیتبمسینب', 400, 1, 1, 1, 1, 0, 0, 0, '', '', 0, 0, 1658233358, '', '', '');
+INSERT INTO `tbl_order` (`id`, `beforePay_reservation`, `afterPay_reference`, `amount`, `family`, `reverse`, `state`, `city`, `postalcode`, `mobile`, `tel`, `postType`, `basket`, `address`, `postPrice`, `userId`, `status`, `pay`, `payType`, `pay_day`, `pay_month`, `pay_year`, `pay_card`, `pay_bank_name`, `pay_hour`, `pay_minute`, `time_sabt`, `date`, `barcode`, `code`, `tarikh`) VALUES
+(3, '1234', '5678', 19400, 'محمدی', 0, 'تهران', 'تهران', '2374239807', '092394372', '2233455', 2, 'a:1:{i:0;a:20:{s:5:\"tedad\";s:1:\"2\";s:9:\"basketRow\";s:1:\"7\";s:2:\"id\";s:2:\"25\";s:5:\"title\";s:41:\"گوشی موبایل سامسونگ T12F\";s:5:\"price\";s:5:\"10000\";s:3:\"cat\";s:2:\"35\";s:12:\"introduction\";s:90:\"<p>معرفی اجمالی محصول&nbsp;گوشی موبایل سامسونگ T12F</p>\r\n\";s:12:\"tedad_mojood\";s:1:\"3\";s:8:\"discount\";s:1:\"5\";s:7:\"special\";s:1:\"1\";s:12:\"time_special\";s:1:\"0\";s:14:\"onlyInDigikala\";s:1:\"1\";s:6:\"viewed\";s:2:\"15\";s:6:\"colors\";s:5:\"1,3,4\";s:9:\"guarantee\";s:5:\"1,3,4\";s:10:\"idcategory\";s:2:\"35\";s:6:\"weight\";s:1:\"0\";s:10:\"colorTitle\";s:8:\"قرمز\";s:14:\"guaranteeTitle\";s:27:\"گارانتی شماره 3\";s:13:\"discountTotal\";i:1000;}}', 'یسنتبسخباسمیتبمسینب', 400, 1, 1, 1, 1, 0, 0, 0, '', '', 0, 0, 1658562408, '', '', '', '1401/05/02');
 
 -- --------------------------------------------------------
 
@@ -402,6 +410,27 @@ INSERT INTO `tbl_order_status` (`id`, `title`) VALUES
 (5, 'در حال پردازش انبار'),
 (6, 'آماده ارسال'),
 (7, 'ارسال شده');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_pay_type`
+--
+
+CREATE TABLE `tbl_pay_type` (
+  `id` int(255) NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+--
+-- Dumping data for table `tbl_pay_type`
+--
+
+INSERT INTO `tbl_pay_type` (`id`, `title`) VALUES
+(1, 'زرین پال'),
+(2, 'ملت'),
+(3, 'پارسیان'),
+(4, 'کارت به کارت');
 
 -- --------------------------------------------------------
 
@@ -679,6 +708,12 @@ ALTER TABLE `tbl_order_status`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_pay_type`
+--
+ALTER TABLE `tbl_pay_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_post_type`
 --
 ALTER TABLE `tbl_post_type`
@@ -734,7 +769,7 @@ ALTER TABLE `tbl_attr`
 -- AUTO_INCREMENT for table `tbl_basket`
 --
 ALTER TABLE `tbl_basket`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_category`
@@ -800,19 +835,25 @@ ALTER TABLE `tbl_message`
 -- AUTO_INCREMENT for table `tbl_option`
 --
 ALTER TABLE `tbl_option`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_order_status`
 --
 ALTER TABLE `tbl_order_status`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tbl_pay_type`
+--
+ALTER TABLE `tbl_pay_type`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_post_type`
