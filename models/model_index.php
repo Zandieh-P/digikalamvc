@@ -87,13 +87,19 @@ class model_index extends Model
 
     function getLatestProducts()
     {
-        $sql = 'select * from tbl_option where setting="limit_slider"';
+        $option=self::getOptions();
+        $limit_slider=$option['limit_slider'];
+
+        /*$sql = 'select * from tbl_option where setting="limit_slider"';
         $result=$this->doSelect($sql,[],1);
-/*        $stmt = self::$conn->prepare($sql);
+        $limit_slider = $result['value'];*/
+
+        /*$stmt = self::$conn->prepare($sql);
 //        $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-        $result = $stmt->fetch();*/
-        $limit_slider = $result['value'];
+        $result = $stmt->fetch();
+        $limit_slider = $result['value'];*/
+
         $sql = 'select * from tbl_product order by id desc limit ' . $limit_slider . '';
         $result=$this->doSelect($sql);
 /*        $stmt = self::$conn->prepare($sql);

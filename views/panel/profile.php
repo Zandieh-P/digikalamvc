@@ -12,3 +12,9 @@ if (isset($data['userInfo'])) {
         </form>
     </div>
 </main>
+
+<script>
+    function submitForm(){
+        $('form').submit();
+    }
+</script>

@@ -8,7 +8,7 @@
     <script src="public/js/jquery-3.6.0.min.js"></script>
     <!--    <script src="public/https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><style>-->
 </head>
-<body>
+<body style="background:<?=body_color?>;">
 <header>
     <div id="header">
         <div id="header_right">
@@ -45,7 +45,7 @@
         </div>
     </div>
 </header>
-<nav>
+<nav id="menu__top__nav" style="background: <?= menu_color ?>;">
     <div id="menu__top">
         <ul>
             <li data-time="1">

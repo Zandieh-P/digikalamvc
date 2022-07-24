@@ -1,4 +1,5 @@
 <?php
+$active='category';
 require('views/admin/layout.php');
 $category = [];
 $categoryInfo = [];

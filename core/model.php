@@ -15,7 +15,9 @@ class Model
         self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //        $this->conn = new PDO('mysql:host=' . $servername . ';dbname=' . $dbname, $username, $password, $attr);
 //        $this->conn= new PDO('mysql:host='.$servername.';dbname='.$dbname,$username,$password,array(PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES "utf8"'));
-        require ('public/jdf/jdf.php');
+        if (function_exists('jdate') == false) {
+            require('public/jdf/jdf.php');
+        }
     }
 
     public static function getOptions()
@@ -66,7 +68,7 @@ class Model
         $stmt->execute();
     }
 
-    function create_thumbnail($file, $pathToSave ='', $w, $h = '', $crop = FALSE)
+    function create_thumbnail($file, $pathToSave = '', $w, $h = '', $crop = FALSE)
     {
         $new_height = $h;
         list($width, $height) = getimagesize($file);
@@ -103,54 +105,59 @@ class Model
                 $src = imagecreatefromgif($file);
                 break;
             default;
-            //die();
+                //die();
         }
 
-        if($new_height!=''){
-            $newheight=$new_height;
+        if ($new_height != '') {
+            $newheight = $new_height;
         }
 
-        $dst=imagecreatetruecolor($newwidth,$newheight); //The New Image
-        imagecopyresampled($dst,$src,0,0,0,0,$newwidth,$newheight,$width,$height); //Az Function
-        imagejpeg($dst,$pathToSave,95); //pish farz in tabe 75 darsad quality ast
+        $dst = imagecreatetruecolor($newwidth, $newheight); //The New Image
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height); //Az Function
+        imagejpeg($dst, $pathToSave, 95); //pish farz in tabe 75 darsad quality ast
 //        imagejpeg($dst,$pathToSave.$file_name,95); //pish farz in tabe 75 darsad quality ast
         return $dst;
     }
 
-    public static function sessionInit(){
+    public static function sessionInit()
+    {
         @session_start();
     }
 
-    public static function sessionSet($name,$value){
-        $_SESSION[$name]=$value;
+    public static function sessionSet($name, $value)
+    {
+        $_SESSION[$name] = $value;
     }
 
-    public static function sessionGet($name){
-        if(isset($_SESSION[$name])){
+    public static function sessionGet($name)
+    {
+        if (isset($_SESSION[$name])) {
             return $_SESSION[$name];
-        }else{
+        } else {
             return FALSE;
         }
     }
 
-    public static function getBasketCookie(){
-        if(isset($_COOKIE['basket'])){
+    public static function getBasketCookie()
+    {
+        if (isset($_COOKIE['basket'])) {
 //            $cookie = json_decode($_COOKIE['basket'], true);
             $cookie = $_COOKIE['basket'];
-        }else{
-            $value=time();
+        } else {
+            $value = time();
 //            $value=time()+rand(100,100000);
-            $expireTime=time()+(3600*24);
-            setcookie('basket',$value,$expireTime,"/");
-            $cookie=$value;
+            $expireTime = time() + (3600 * 24);
+            setcookie('basket', $value, $expireTime, "/");
+            $cookie = $value;
 //            setcookie('basket', json_encode($value),$expireTime);
 //            $cookie = json_decode($_COOKIE['basket'], true);
         }
         return $cookie;
     }
 
-    function getBasket(){
-        $sql='select b.tedad,b.id as basketRow,p.*,c.title as colorTitle,g.title as guaranteeTitle 
+    function getBasket()
+    {
+        $sql = 'select b.tedad,b.id as basketRow,p.*,c.title as colorTitle,g.title as guaranteeTitle 
         from tbl_basket b
         LEFT JOIN  tbl_product p ON b.idproduct=p.id
         LEFT JOIN tbl_color c ON b.color=c.id
@@ -158,43 +165,42 @@ class Model
         where cookie=?';
 //        $sql='select tbl_basket.tedad,tbl_basket.id as basketRow,tbl_product.* from tbl_basket JOIN tbl_product ON tbl_basket.idproduct=tbl_product.id where cookie=?';
 //        $sql='select * from tbl_basket where cookie=?';
-        $cookie=self::getBasketCookie();
-        $result=$this->doSelect($sql,[$cookie]);
-        $priceTotalAll=0;
-        $discountTotalAll=0;
-        foreach ($result as $key=>$row){
-            $discount=$row['discount'];
-            $price=$row['price'];
-            $tedad=$row['tedad'];
-            $discountTotal=(($discount*$price)/100)*$tedad;
-            $discountTotalAll+=$discountTotal;
-            $discountTotalAll=ceil($discountTotalAll);
-            $priceTotal=$price*$tedad;
-            $priceTotalAll+=$priceTotal;
-            $priceTotalAll=ceil($priceTotalAll);
-            $result[$key]['discountTotal']=$discountTotal;
+        $cookie = self::getBasketCookie();
+        $result = $this->doSelect($sql, [$cookie]);
+        $priceTotalAll = 0;
+        $discountTotalAll = 0;
+        foreach ($result as $key => $row) {
+            $discount = $row['discount'];
+            $price = $row['price'];
+            $tedad = $row['tedad'];
+            $discountTotal = (($discount * $price) / 100) * $tedad;
+            $discountTotalAll += $discountTotal;
+            $discountTotalAll = ceil($discountTotalAll);
+            $priceTotal = $price * $tedad;
+            $priceTotalAll += $priceTotal;
+            $priceTotalAll = ceil($priceTotalAll);
+            $result[$key]['discountTotal'] = $discountTotal;
         }
-        return [$result,$priceTotalAll,$discountTotalAll];
+        return [$result, $priceTotalAll, $discountTotalAll];
     }
 
-    function calculatePostPrice($cityId=0)
+    function calculatePostPrice($cityId = 0)
     {
 
-        $basketInfo=$this->getBasket();
-        $priceTotalAll=$basketInfo[1];
-        $basket=$basketInfo[0];
-        $weightTotalAll=0;
-        foreach ($basket as $row)
-        {
-            $weight=$row['weight'];
-            $tedad=$row['tedad'];
-            $weightTotal=$weight*$tedad;
-            $weightTotalAll=$weightTotalAll+$weightTotal;
+        $basketInfo = $this->getBasket();
+        $priceTotalAll = $basketInfo[1];
+        $basket = $basketInfo[0];
+        $weightTotalAll = 0;
+        foreach ($basket as $row) {
+            $weight = $row['weight'];
+            $tedad = $row['tedad'];
+            $weightTotal = $weight * $tedad;
+            $weightTotalAll = $weightTotalAll + $weightTotal;
         }
 
-        $url='http://webservice1.link/ws/v1/rest/';
-        $helper=new helper($url);
-        $buy_type=1;
+        $url = 'http://webservice1.link/ws/v1/rest/';
+        $helper = new helper($url);
+        $buy_type = 1;
 
         /*$post_type=1;
         $price=$helper->getPrices($cityId,$priceTotalAll,$weightTotalAll,$buy_type,$post_type);
@@ -214,15 +220,32 @@ class Model
 
 
         //in case when api doesn't respond, template prices can be used:
-        $post_price_pishtaz=$priceTotalAll/4;
-        $post_price_sefareshi=$priceTotalAll/5;
+        $post_price_pishtaz = $priceTotalAll / 4;
+        $post_price_sefareshi = $priceTotalAll / 5;
 
-        $data=['pishtaz'=>($post_price_pishtaz/10),'sefareshi'=>($post_price_sefareshi/10)];
+        $data = ['pishtaz' => ($post_price_pishtaz / 10), 'sefareshi' => ($post_price_sefareshi / 10)];
         return $data;
     }
 
-    public static function jaliliDate($format='Y/n/j'){
-        $date=jdate($format);
+    public static function jaliliDate($format = 'Y/n/j')
+    {
+        $date = jdate($format);
+        return $date;
+    }
+
+    public static function jalaliToGregorian($jalili = '', $format = '/')
+    {
+        $date='';
+        if (isset($jalili)) {
+            $jalili = explode('/', $jalili);
+            $year = $jalili[0];
+            $month = $jalili[1];
+            $day = $jalili[2];
+            $date = jalali_to_gregorian($year, $month, $day);
+            $date = implode($format, $date);
+            $date=new DateTime($date);
+            $date=$date->format('Y/m/d');
+        }
         return $date;
     }
 }
@@ -239,53 +262,55 @@ class helper
      * @var array
      */
     private $errors = array();
+
     /**
-     *@param string $webserviceUrl
-     *@param string $api_key
+     * @param string $webserviceUrl
+     * @param string $api_key
      */
 
     public function __construct($webserviceUrl)
     {
-        $this->url=$webserviceUrl;
-        $this->api_key='XXXXXXXXXXXXXXXX';
+        $this->url = $webserviceUrl;
+        $this->api_key = 'XXXXXXXXXXXXXXXX';
 
     }
 
-    public function getPrices($des_city,$price,$weight,$buy_type,$delivery_type)
+    public function getPrices($des_city, $price, $weight, $buy_type, $delivery_type)
     {
-        $params=array(
-            'des_city'=>$des_city,
-            'price'=>$price,
-            'weight'=>$weight,
-            'buy_type'=>$buy_type,
-            'send_type'=>$delivery_type
+        $params = array(
+            'des_city' => $des_city,
+            'price' => $price,
+            'weight' => $weight,
+            'buy_type' => $buy_type,
+            'send_type' => $delivery_type
         );
-        return $this->call('order/getPrices.json',$params);
+        return $this->call('order/getPrices.json', $params);
     }
 
     private function call($url, $params, $methodType = helper::METHOD_POST)
     {
         //flush error list
-        $this->errors=array();
-        if(stripos($url,'http://')===false)
-            $url=$this->url.$url;
-        $params['api']=$this->api_key;
-        $data=http_build_query($params);
-        $ch=curl_init();
-        curl_setopt($ch,CURLOPT_POST,$methodType===helper::METHOD_POST);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+        $this->errors = array();
+        if (stripos($url, 'http://') === false)
+            $url = $this->url . $url;
+        $params['api'] = $this->api_key;
+        $data = http_build_query($params);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, $methodType === helper::METHOD_POST);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         //set the url, number of POST vars, POST data
-        curl_setopt($ch,CURLOPT_URL,$url);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //execute post
-        $result=curl_exec($ch);
+        $result = curl_exec($ch);
         //close connection
         curl_close($ch);
-        $result=json_decode($result,true);
-        if(json_last_error()==JSON_ERROR_NONE)
+        $result = json_decode($result, true);
+        if (json_last_error() == JSON_ERROR_NONE)
             return $this->parseResponse($result);
-        throw new FrotelResponseException('Failed to Parse Response ('.json_last_error().')');
+        throw new FrotelResponseException('Failed to Parse Response (' . json_last_error() . ')');
     }
+
     /**
      * parse webservice response
      *
@@ -310,5 +335,10 @@ class helper
     }
 }
 
-class FrotelResponseException extends Exception{}
-class FrotelWebserviceException extends Exception{}
+class FrotelResponseException extends Exception
+{
+}
+
+class FrotelWebserviceException extends Exception
+{
+}

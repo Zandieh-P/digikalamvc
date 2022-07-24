@@ -46,7 +46,7 @@ li {
 body {
     margin: 0;
     /*background: #ccc;*/
-    background: #F6F8FA;
+    /*background: #F6F8FA;*/
 }
 
 header {
@@ -166,10 +166,10 @@ header {
     float: left;
 }
 
-nav {
+#menu__top__nav {
     width: 100%;
     height: 40px;
-    background: #f7f8fa;
+    /*background: #f7f8fa;*/
     box-shadow: 1px 3px 4px #ccc;
     -webkit-box-shadow: 1px 3px 4px #ccc;
     -moz-box-shadow: 1px 3px 4px #ccc;
@@ -3515,7 +3515,14 @@ main #search__content {
     padding: 3px;
     font-size: 11pt;
     border: 1px dashed #ccc;
+}
 
+.admin_right-menu ul li:nth-child(odd) a{
+    background: #fff3e3;
+}
+
+.admin_right-menu ul li.active a{
+    background: #e5ffed;
 }
 
 .admin_left {
@@ -3534,29 +3541,29 @@ main #search__content {
     padding-right: 5px;
 }
 
-table.category_list, table.product_list {
+table.category_list, table.product_list,table.order_list {
     width: 100%;
 }
 
-table.category_list td, table.product_list td {
+table.category_list td, table.product_list td, table.order_list td {
     padding: 4px;
     font-size: 11pt;
     border: 1px solid #eee;
 }
 
-.subCategory, .subProduct {
+.subCategory, .subProduct, .subOrder {
     width: 36px;
     height: 36px;
     float: right;
 }
 
-.subCategory i, .subProduct i {
+.subCategory i, .subProduct i, .subOrder i {
     display: inline-block;
     background: url("../images/receive__state.png") no-repeat 0 -15px;
     float: right;
 }
 
-.addCategory__btn, .addProduct__btn, .addAttr__btn {
+.addCategory__btn, .addProduct__btn, .addAttr__btn, .addOrder__btn {
     float: left;
     width: 100px;
     margin-bottom: 10px;

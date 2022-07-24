@@ -1,4 +1,5 @@
 <?php
+$active='product';
 require('views/admin/layout.php');
 $products = [];
 if (isset($data['product'])) {
