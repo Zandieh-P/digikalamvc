@@ -134,4 +134,34 @@ class model_admincategory extends Model
         $stmt = self::$conn->prepare($sql);
         $stmt->execute();
     }
+
+    function getAttrVal($attrId=0){
+        $sql='select * from tbl_attr_val where idattr=?';
+        $result=$this->doSelect($sql,[$attrId]);
+        return $result;
+    }
+
+    function saveAttrVal($data=[],$attrId=0){
+        $attrValNew=$data['attrvalnew'];
+        $attrValNew=array_filter($attrValNew);
+        foreach($attrValNew as $val){
+            $sql='insert into tbl_attr_val (idattr,val) values (?,?)';
+            $this->doQuery($sql,[$attrId,$val]);
+        }
+        unset($data['attrvalnew']);
+        foreach($data as $key=>$val){
+            $key=explode('-',$key);
+            if(isset($key[1])){
+                $valId=$key[1];
+                if($val!=''){
+                    $sql='update tbl_attr_val set val=? where id=?';
+                    $this->doQuery($sql,[$val,$valId]);
+                }else{
+                    $sql='delete from tbl_attr_val where id=?';
+                    $this->doQuery($sql,[$valId]);
+                }
+            }
+        }
+//        print_r($data);
+    }
 }

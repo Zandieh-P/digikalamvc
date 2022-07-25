@@ -22,7 +22,19 @@ if (isset($data['productInfo'])) {
         foreach ($attr as $row){?>
         <div class="row">
             <span class="newProduct__title"><?= $row['title']?></span>
-            <input style="width: 400px;" type="text" name="value<?= $row['id'];?>" value="<?= $row['value'];?>">
+            <select class="newProduct__val" name="value<?= $row['id'];?>" id="" autocomplete="off">
+                <?php
+                $values=$row['values'];
+                foreach($values as $val){
+                    $selected='';
+                    if($row['idval']==$val['id']){
+                        $selected='selected';
+                    } ?>
+                    <option value="<?= $val['id']?>" <?php if ($selected=='selected'){echo 'selected="selected"';}?>><?= $val['val']?></option>
+                <?php } ?>
+            </select>
+            <!--<input style="width: 400px;" type="text" name="value<?/*= $row['id'];*/?>" value="<?/*= $row['value'];*/?>">-->
+            <a style="font-size: 10pt;color:blue;" href="admincategory/attrval/<?=$row['id']?>">ویرایش مقادیر پیش فرض</a>
             <input type="hidden" name="id[]" value="<?= $row['id'];?>">
         </div>
         <?php }?>
@@ -32,3 +44,8 @@ if (isset($data['productInfo'])) {
     </form>
 </div>
 </main>
+<script>
+    function submitForm(){
+        $('form').submit();
+    }
+</script>

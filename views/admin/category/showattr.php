@@ -41,6 +41,7 @@ if (isset($data['attrInfo'])) {
                 <?php if (!isset($attrInfo['id'])){ ?>
                 <td>مشاهده زیرویژگی ها</td>
                 <?php }?>
+                <td>مقادیر پیش فرض</td>
                 <td>ویرایش</td>
                 <td>انتخاب</td>
             </tr>
@@ -56,6 +57,11 @@ if (isset($data['attrInfo'])) {
                         </a>
                     </td>
                     <?php }?>
+                    <td>
+                        <a class="subCategory" href="admincategory/attrval/<?= $row['id'] ?>">
+                            <i class="subCategory_icon img__fit__contain"></i>
+                        </a>
+                    </td>
                     <td>
                         <a class="subCategory" href="admincategory/addattr/<?= $categoryInfo['id'];?>/<?php if(isset($attrInfo['id'])){ echo $attrInfo['id'];}?>/<?= $row['id'] ?>">
                             <i class="subCategory_icon img__fit__contain"></i>

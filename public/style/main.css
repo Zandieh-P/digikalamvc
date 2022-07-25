@@ -3541,6 +3541,14 @@ main #search__content {
     padding-right: 5px;
 }
 
+.admin_left .newProduct__val {
+    width:200px;
+    height:32px;
+    line-height: 30px;
+    padding:2px;
+    font-family: Yekan, sans-serif;
+}
+
 table.category_list, table.product_list,table.order_list {
     width: 100%;
 }

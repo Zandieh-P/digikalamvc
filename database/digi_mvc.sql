@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2022 at 03:17 PM
+-- Generation Time: Jul 25, 2022 at 04:06 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -46,6 +46,38 @@ INSERT INTO `tbl_attr` (`id`, `title`, `idcategory`, `parent`) VALUES
 (5, 'وزن', 35, 1),
 (6, 'مشخصات کلی', 35, 0),
 (7, 'تعداد سیم کارت', 35, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_attr_val`
+--
+
+CREATE TABLE `tbl_attr_val` (
+  `id` int(255) NOT NULL,
+  `idattr` int(255) NOT NULL,
+  `val` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+--
+-- Dumping data for table `tbl_attr_val`
+--
+
+INSERT INTO `tbl_attr_val` (`id`, `idattr`, `val`) VALUES
+(1, 4, '1 هسته'),
+(2, 4, '2 هسته'),
+(3, 4, '3 هسته'),
+(5, 4, '4 هسته'),
+(6, 2, '23mm'),
+(7, 2, '24mm'),
+(8, 2, '25mm'),
+(9, 5, '200g'),
+(10, 5, '250g'),
+(11, 5, '300g'),
+(12, 5, '350g'),
+(13, 7, '1'),
+(14, 7, '2'),
+(15, 2, '26mm');
 
 -- --------------------------------------------------------
 
@@ -494,6 +526,7 @@ CREATE TABLE `tbl_product_attr` (
   `id` int(255) NOT NULL,
   `idproduct` int(255) NOT NULL,
   `idattr` int(255) NOT NULL,
+  `idval` int(255) NOT NULL,
   `value` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
@@ -501,15 +534,15 @@ CREATE TABLE `tbl_product_attr` (
 -- Dumping data for table `tbl_product_attr`
 --
 
-INSERT INTO `tbl_product_attr` (`id`, `idproduct`, `idattr`, `value`) VALUES
-(1, 25, 2, '23mm'),
-(2, 25, 4, '2MHz'),
-(3, 25, 5, '200g'),
-(4, 25, 7, '2'),
-(5, 26, 2, '60mm'),
-(6, 26, 4, '8'),
-(7, 26, 5, '100g'),
-(8, 26, 7, '2');
+INSERT INTO `tbl_product_attr` (`id`, `idproduct`, `idattr`, `idval`, `value`) VALUES
+(9, 25, 2, 7, ''),
+(10, 25, 4, 2, ''),
+(11, 25, 5, 9, ''),
+(12, 25, 7, 14, ''),
+(21, 26, 4, 5, ''),
+(22, 26, 5, 10, ''),
+(23, 26, 7, 14, ''),
+(24, 26, 2, 6, '');
 
 -- --------------------------------------------------------
 
@@ -621,6 +654,12 @@ INSERT INTO `tbl_user_address` (`id`, `userid`, `family`, `mobile`, `tel`, `stat
 -- Indexes for table `tbl_attr`
 --
 ALTER TABLE `tbl_attr`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_attr_val`
+--
+ALTER TABLE `tbl_attr_val`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -766,6 +805,12 @@ ALTER TABLE `tbl_attr`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `tbl_attr_val`
+--
+ALTER TABLE `tbl_attr_val`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `tbl_basket`
 --
 ALTER TABLE `tbl_basket`
@@ -835,7 +880,7 @@ ALTER TABLE `tbl_message`
 -- AUTO_INCREMENT for table `tbl_option`
 --
 ALTER TABLE `tbl_option`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_order`
@@ -871,7 +916,7 @@ ALTER TABLE `tbl_product`
 -- AUTO_INCREMENT for table `tbl_product_attr`
 --
 ALTER TABLE `tbl_product_attr`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tbl_question`

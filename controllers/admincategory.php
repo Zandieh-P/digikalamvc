@@ -83,4 +83,14 @@ class Admincategory extends Controller
         $this->model->deleteAttr($ids);
         header('location:' . URL . 'admincategory/showattr/' . $categoryId . '/' . $attrId);
     }
+
+    function attrval($attrId=''){
+        if(isset($_POST['submited'])){
+            $this->model->saveAttrVal($_POST,$attrId);
+        }
+        $attrval=$this->model->getAttrVal($attrId);
+        $attrInfo=$this->model->getAttrInfo($attrId);
+        $data=['attrval'=>$attrval,'attrInfo'=>$attrInfo];
+        $this->view('admin/category/attrval', $data);
+    }
 }

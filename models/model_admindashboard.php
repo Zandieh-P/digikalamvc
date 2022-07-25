@@ -27,19 +27,20 @@ class model_admindashboard extends Model
         $dates = $this->getRange($last_week_date, $today_date);
         $orders = $this->getOrder();
         $orderStat = [];
+        foreach ($dates as $date) {
+            $date_jalili = self::gregoriantojalali($date);
+            $orderStat[$date_jalili] = 0;
+        }
         foreach ($orders as $order) {
             if (isset($order['tarikh'])) {
                 $date_jalili = $order['tarikh'];
                 $date_gregorian = self::jalaliToGregorian($date_jalili);
                 if (in_array($date_gregorian, $dates)) {
-                    if (isset($orderStat[$date_jalili])) {
-                        $orderStat[$date_jalili] = $orderStat[$date_jalili] + 1;
-                    }else{
-                        $orderStat[$date_jalili] = 1;
-                    }
+                    $orderStat[$date_jalili] = $orderStat[$date_jalili] + 1;
                 }
             }
         }
+        return $orderStat;
     }
 
     function getRange($startDate = '', $endDate = '')

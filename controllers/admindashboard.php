@@ -8,8 +8,8 @@ class Admindashboard extends Controller
 
     function index()
     {
-        $stat=$this->model->getStat();
-        $data = [];
+        $orderStat=$this->model->getStat();
+        $data = ['orderStat'=>$orderStat];
         $this->view('admin/dashboard/index', $data);
     }
 }

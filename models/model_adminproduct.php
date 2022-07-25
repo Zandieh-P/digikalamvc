@@ -161,13 +161,29 @@ class model_adminproduct extends Model
         $this->doQuery($sql);
     }
 
+    function getAttrVal($attrId=0){
+        $sql='select * from tbl_attr_val where idattr=?';
+        $result=$this->doSelect($sql,[$attrId]);
+        return $result;
+    }
+
     function getProductAttr($productId)
     {
         $productInfo = $this->getProductInfo($productId);
         $catId = $productInfo['cat'];
-//        $sql='select * from tbl_attr where idcategory=? and parent!=0';
-        $sql = 'select tbl_attr.*,tbl_product_attr.value from tbl_attr LEFT JOIN tbl_product_attr ON tbl_attr.id=tbl_product_attr.idattr and tbl_product_attr.idproduct=? where idcategory=? and parent!=0';
+
+        $sql = 'select tbl_attr.*,tbl_product_attr.idval from tbl_attr LEFT JOIN tbl_product_attr ON tbl_attr.id=tbl_product_attr.idattr and tbl_product_attr.idproduct=? where idcategory=? and parent!=0';
+
+        /*$sql = 'select tbl_attr.*,tbl_product_attr.value from tbl_attr LEFT JOIN tbl_product_attr ON tbl_attr.id=tbl_product_attr.idattr and tbl_product_attr.idproduct=? where idcategory=? and parent!=0';;*/
+
+        /*$sql='select * from tbl_attr where idcategory=? and parent!=0';
+        $result = $this->doSelect($sql, [$catId]);*/
+
         $result = $this->doSelect($sql, [$productId, $catId]);
+        foreach($result as $key=>$attr){
+            $values=$this->getAttrVal($attr['id']);
+            $result[$key]['values']=$values;
+        }
         return $result;
     }
 
@@ -179,7 +195,8 @@ class model_adminproduct extends Model
             $params=[$productId,$id];
             $this->doQuery($sql,$params);
 
-            $sql = 'insert into tbl_product_attr (idproduct,idattr,value) values (?,?,?)';
+            $sql = 'insert into tbl_product_attr (idproduct,idattr,idval) values (?,?,?)';
+//            $sql = 'insert into tbl_product_attr (idproduct,idattr,value) values (?,?,?)';
             $params = [$productId, $id, $data['value' . $id]];
             $this->doQuery($sql, $params);
         }

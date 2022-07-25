@@ -248,6 +248,22 @@ class Model
         }
         return $date;
     }
+
+    public static function gregorianToJalali($gregorian = '', $format = '/')
+    {
+        $date='';
+        if (isset($gregorian)) {
+            $gregorian = explode('/', $gregorian);
+            $year = $gregorian[0];
+            $month = $gregorian[1];
+            $day = $gregorian[2];
+            $date = gregorian_to_jalali($year, $month, $day);
+            $date = implode($format, $date);
+            $date=new DateTime($date);
+            $date=$date->format('Y/m/d');
+        }
+        return $date;
+    }
 }
 
 class helper
