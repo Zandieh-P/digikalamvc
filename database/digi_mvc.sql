@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2022 at 04:06 PM
+-- Generation Time: Jul 31, 2022 at 04:00 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -31,21 +31,25 @@ CREATE TABLE `tbl_attr` (
   `id` int(255) NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL,
   `idcategory` int(255) NOT NULL,
-  `parent` int(255) NOT NULL
+  `parent` int(255) NOT NULL,
+  `filter` int(1) NOT NULL,
+  `filter_right` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
 --
 -- Dumping data for table `tbl_attr`
 --
 
-INSERT INTO `tbl_attr` (`id`, `title`, `idcategory`, `parent`) VALUES
-(1, 'مشخصات فیزیکی', 35, 0),
-(2, 'ابعاد', 35, 1),
-(3, 'پردازنده', 35, 0),
-(4, 'قدرت پردازنده', 35, 3),
-(5, 'وزن', 35, 1),
-(6, 'مشخصات کلی', 35, 0),
-(7, 'تعداد سیم کارت', 35, 6);
+INSERT INTO `tbl_attr` (`id`, `title`, `idcategory`, `parent`, `filter`, `filter_right`) VALUES
+(1, 'مشخصات فیزیکی', 35, 0, 0, 0),
+(2, 'ابعاد', 35, 1, 1, 0),
+(3, 'پردازنده', 35, 0, 0, 0),
+(4, 'قدرت پردازنده', 35, 3, 1, 0),
+(5, 'وزن', 35, 1, 1, 0),
+(6, 'مشخصات کلی', 35, 0, 0, 0),
+(7, 'تعداد سیم کارت', 35, 6, 1, 0),
+(8, 'سازنده', 35, 6, 0, 1),
+(9, 'سیستم عامل', 35, 6, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -77,7 +81,13 @@ INSERT INTO `tbl_attr_val` (`id`, `idattr`, `val`) VALUES
 (12, 5, '350g'),
 (13, 7, '1'),
 (14, 7, '2'),
-(15, 2, '26mm');
+(15, 2, '26mm'),
+(16, 8, 'سامسونگ'),
+(17, 8, 'اپل'),
+(18, 8, 'هواوی'),
+(19, 8, 'شیائومی'),
+(20, 9, 'android'),
+(21, 9, 'ios');
 
 -- --------------------------------------------------------
 
@@ -513,8 +523,10 @@ CREATE TABLE `tbl_product` (
 --
 
 INSERT INTO `tbl_product` (`id`, `title`, `price`, `cat`, `introduction`, `tedad_mojood`, `discount`, `special`, `time_special`, `onlyInDigikala`, `viewed`, `colors`, `guarantee`, `idcategory`, `weight`) VALUES
-(25, 'گوشی موبایل سامسونگ T12F', 10000, 35, '<p>معرفی اجمالی محصول&nbsp;گوشی موبایل سامسونگ T12F</p>\r\n', 3, 5, 1, 0, 1, 15, '1,3,4', '1,3,4', 35, 0),
-(26, 'گوشی موبایل Xiaomi 11T', 11000000, 35, '<p>گوشی شیائومی مدل 2021</p>\r\n', 5, 4, 0, 0, 0, 0, '2,4', '2,4', 0, 0);
+(25, 'گوشی موبایل سامسونگ T12F', 10000, 35, '<p>معرفی اجمالی محصول&nbsp;گوشی موبایل سامسونگ T12F</p>\r\n', 3, 5, 1, 0, 1, 15, '3,4', '1,3,4', 35, 0),
+(26, 'گوشی موبایل Xiaomi 11T', 11000000, 35, '<p>گوشی شیائومی مدل 2021</p>\r\n', 0, 4, 0, 0, 0, 0, '2,4', '2,4', 35, 0),
+(29, 'گوشی موبایل sony', 11000000, 35, '<p>گوشی شیائومی مدل 2021</p>\r\n', 0, 4, 0, 0, 0, 0, '2,4', '2,4', 35, 0),
+(30, 'گوشی موبایل شیائومی', 10000, 35, '<p>معرفی اجمالی محصول&nbsp;گوشی موبایل سامسونگ T12F</p>\r\n', 3, 5, 1, 0, 1, 15, '3,4', '1,3,4', 35, 0);
 
 -- --------------------------------------------------------
 
@@ -535,14 +547,18 @@ CREATE TABLE `tbl_product_attr` (
 --
 
 INSERT INTO `tbl_product_attr` (`id`, `idproduct`, `idattr`, `idval`, `value`) VALUES
-(9, 25, 2, 7, ''),
-(10, 25, 4, 2, ''),
-(11, 25, 5, 9, ''),
-(12, 25, 7, 14, ''),
-(21, 26, 4, 5, ''),
-(22, 26, 5, 10, ''),
-(23, 26, 7, 14, ''),
-(24, 26, 2, 6, '');
+(25, 25, 2, 7, ''),
+(26, 25, 4, 2, ''),
+(27, 25, 5, 9, ''),
+(28, 25, 7, 14, ''),
+(29, 25, 8, 17, ''),
+(30, 25, 9, 21, ''),
+(31, 26, 4, 5, ''),
+(32, 26, 5, 10, ''),
+(33, 26, 7, 14, ''),
+(34, 26, 2, 6, ''),
+(35, 26, 8, 18, ''),
+(36, 26, 9, 20, '');
 
 -- --------------------------------------------------------
 
@@ -576,19 +592,20 @@ INSERT INTO `tbl_question` (`id`, `content`, `date`, `userid`, `parent`, `idprod
 CREATE TABLE `tbl_slider1` (
   `id` int(255) NOT NULL,
   `img` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL,
-  `link` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL
+  `link` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
 --
 -- Dumping data for table `tbl_slider1`
 --
 
-INSERT INTO `tbl_slider1` (`id`, `img`, `link`) VALUES
-(1, 'public/images/slider1-1.png', ''),
-(2, 'public/images/slider1-2.png', ''),
-(3, 'public/images/slider1-3.png', ''),
-(4, 'public/images/slider1-4.png', ''),
-(5, 'public/images/slider1-5.png', '');
+INSERT INTO `tbl_slider1` (`id`, `img`, `link`, `title`) VALUES
+(8, 'public/images/slider/1659275098.png', '', 'محصولات آب و آفتاب'),
+(9, 'public/images/slider/1659275557.png', '', 'سری جدید Vaio	'),
+(10, 'public/images/slider/1659275572.png', '', 'فروش ویژه هندزفری	'),
+(11, 'public/images/slider/1659275588.png', '', 'اسپیکرهای قابل حمل	'),
+(12, 'public/images/slider/1659275603.png', '', 'اسباب بازی تابستانه	');
 
 -- --------------------------------------------------------
 
@@ -802,13 +819,13 @@ ALTER TABLE `tbl_user_address`
 -- AUTO_INCREMENT for table `tbl_attr`
 --
 ALTER TABLE `tbl_attr`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_attr_val`
 --
 ALTER TABLE `tbl_attr_val`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_basket`
@@ -910,13 +927,13 @@ ALTER TABLE `tbl_post_type`
 -- AUTO_INCREMENT for table `tbl_product`
 --
 ALTER TABLE `tbl_product`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `tbl_product_attr`
 --
 ALTER TABLE `tbl_product_attr`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `tbl_question`
@@ -928,7 +945,7 @@ ALTER TABLE `tbl_question`
 -- AUTO_INCREMENT for table `tbl_slider1`
 --
 ALTER TABLE `tbl_slider1`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`

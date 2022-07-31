@@ -208,7 +208,7 @@ class model_adminproduct extends Model
         return $result;
     }
 
-    function addGallery($productId,$file=[]){
+    function addGallery($productId=0,$file=[]){
         $fileName=$file['name'];
         $fileSize=$file['size'];
         $fileTmp=$file['tmp_name'];
@@ -262,6 +262,5 @@ class model_adminproduct extends Model
         $ids=join(',',$ids);
         $sql='delete from tbl_gallery where id IN ('.$ids.')';
         $this->doQuery($sql);
-
     }
 }

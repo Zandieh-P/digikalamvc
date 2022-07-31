@@ -1727,20 +1727,19 @@ main #search__content {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     border-radius: 3px;
     text-align: center;
+    cursor: pointer;
     background: linear-gradient(center top, #fff 0%, #efefef 100%);
     background: -moz-linear-gradient(center top, #fff 0%, #efefef 100%);
-}
-
-.search__pagination-prev {
-}
-
-.search__pagination-next {
-
 }
 
 #search__pagination ul {
     padding: 0;
     float: left;
+}
+
+#search__pagination ul li.active {
+    background:red;
+    color:#fff;
 }
 
 #search__pagination ul li {
@@ -1750,11 +1749,13 @@ main #search__content {
     font-family: Yekan, sans-serif;
     font-size: 9.3pt;
     border: 1px solid #eee;
+    border-radius: 4px;
+    overflow:hidden;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
     text-align: center;
     margin-left: 2px;
     margin-right: 2px;
+    cursor: pointer;
     background: linear-gradient(center top, #fff 0%, #efefef 100%);
     background: -moz-linear-gradient(center top, #fff 0%, #efefef 100%);
 }
@@ -1773,7 +1774,7 @@ main #search__content {
 
 #search__products ul li {
     width: 207px;
-    height: 300px;
+    height: 330px;
     border: 1px solid #eee;
     float: right;
     margin-right: 8px;
@@ -1825,7 +1826,7 @@ main #search__content {
 
 #search__products .search__products-title {
     font-size: 10pt;
-    text-align: left;
+    text-align: center;
     padding: 0 6px;
 }
 
@@ -3662,8 +3663,18 @@ table.category_list td, table.product_list td, table.order_list td {
     font-size: 10pt;
 }
 
-.adminGallerySelect .adminGalleryTitle, .adminGallerySelect input {
+.adminGallerySelect .adminGalleryTitle{
     margin-top: 10px;
+    width:100px;
+    height:23px;
+    display:inline-block;
+}
+
+.adminGallerySelect input {
+    margin-top: 10px;
+    width:200px;
+    height:23px;
+    display:inline-block;
 }
 
 /**********admin**********/

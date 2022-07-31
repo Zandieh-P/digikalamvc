@@ -1,6 +1,55 @@
 <div id="search__content-filters__selected"></div>
 <ul class="search__content-filter__top">
-    <li class="yekan">
+    <?php
+    $attr=[];
+    if (isset($data['attr'])){
+        $attr = $data['attr'];
+    }
+    foreach($attr as $row){
+    ?>
+        <li class="yekan">
+                    <span class="title">
+                        <?= $row['title'];?>
+                    </span>
+            <i></i>
+            <div class="search__content-filter__options">
+                <ul>
+                    <li class="yekan" data-filterId="0">
+                        <span class="squares"></span>
+                        نمایش همه
+                    </li>
+                    <div class="horizontal__line"></div>
+                    <?php
+                    $values=[];
+                    if (isset($row['values'])){
+                        $values = $row['values'];
+                    }
+                    foreach($values as $val){
+                    ?>
+                        <li class="yekan" data-idattr="<?= $row['id']?>" data-filterId="<?= $val['id']?>">
+                            <span class="squares"></span>
+                            <?= $val['val']?>
+                        </li>
+                    <?php }?>
+
+                    <!--<li class="yekan" data-filterId="1">
+                        <span class="squares"></span>
+                        یک
+                    </li>
+                    <li class="yekan" data-filterId="2">
+                        <span class="squares"></span>
+                        دو
+                    </li>
+                    <li class="yekan" data-filterId="3">
+                        <span class="squares"></span>
+                        سه
+                    </li>-->
+                </ul>
+            </div>
+        </li>
+    <?php } ?>
+
+    <!--<li class="yekan">
                     <span class="title">
                         تعداد سیم کارت
                     </span>
@@ -107,7 +156,8 @@
                 </li>
             </ul>
         </div>
-    </li>
+    </li>-->
+
 </ul>
 <div class="horizontal__line" style="float: right; width: 100%"></div>
 <script>
@@ -130,14 +180,16 @@
         let title = $(this).parents('li').find('.title').text();
         let value = $(this).text();
         let liFilterId = $(this).attr("data-filterId");
+        let idAttr = $(this).attr("data-idattr");
         let spanFilter = searchSelectedFilter.find('span[data-spanFilterId=' + liFilterId + ']');
         if (spanFilter.length > 0) {
             spanFilter.remove();
         } else {
-            let filterSpan = '<span class="search-filters__selected-span" data-spanFilterId="' + liFilterId + '">' + title + ':' + value + '<i class="remove__filter" onclick="removeFilter(this)"></i></span>';
+            let filterSpan = '<span class="search-filters__selected-span" data-spanFilterId="' + liFilterId + '">' + title + ':' + value + '<i class="remove__filter" onclick="removeFilter(this)"></i><input type="hidden" name="attr-'+idAttr+'[]" value="'+liFilterId+'"></span>';
             searchSelectedFilter.append(filterSpan);
         }
         $('span', this).toggleClass('square__selected');
+        dosearch();
     })
 
     function removeFilter(tag) {
@@ -145,6 +197,7 @@
         let id = span_tag.attr('data-spanFilterId');
         $('.search__content-filter__options li[data-filterId=' + id + ']').find(".squares").removeClass('square__selected');
         span_tag.remove();
+        dosearch();
     }
 
     /*

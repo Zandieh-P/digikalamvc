@@ -1,10 +1,10 @@
 <div id="search__products" class="">
     <ul>
-        <li>
+        <!--<li>
             <a>
                 <div class="search__products-right">
                     <div class="search__products-image">
-                        <img src="<?= URL?>public/images/search_product1.png" alt="">
+                        <img class="img__fit__contain" src="<?/*= URL*/?>public/images/search_product1.png" alt="">
                     </div>
                     <div class="search__products-colors">
                         <span class="search__products-color" style="background: gold"></span>
@@ -38,6 +38,6 @@
                     </div>
                 </div>
             </a>
-        </li>
+        </li>-->
     </ul>
 </div>

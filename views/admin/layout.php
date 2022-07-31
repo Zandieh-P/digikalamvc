@@ -11,6 +11,7 @@
                 <li class="<?php if($active=='comment'){echo 'active';}?>"><a href="admincomment/index/">نظرات</a></li>
                 <li class="<?php if($active=='setting'){echo 'active';}?>"><a href="adminsetting/index/">تنظیمات فروشگاه</a></li>
                 <li class="<?php if($active=='dashboard'){echo 'active';}?>"><a href="admindashboard/index/">داشبورد</a></li>
+                <li class="<?php if($active=='slider'){echo 'active';}?>"><a href="adminslider/index/">مدیریت اسلایدشو</a></li>
             </ul>
         </div>
         <script>
@@ -22,5 +23,11 @@
             }
             function submitAdminGalleryImageForm() {
                 $('#adminGalleryImageForm').submit();
+            }
+            function submitAdminSliderSelectForm() {
+                $('#adminSliderSelectForm').submit();
+            }
+            function submitAdminSliderImageForm() {
+                $('#adminSliderImageForm').submit();
             }
         </script>

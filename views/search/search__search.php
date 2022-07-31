@@ -1,6 +1,6 @@
 <div id="search__search">
-    <input type="text">
-    <img src="<?= URL?>public/images/Search-icon.png" alt="">
+    <input id="keyword" type="text">
+    <img src="<?= URL ?>public/images/Search-icon.png" alt="" onclick="dosearch()" style="cursor:pointer;">
     <span class="onOff">
                     <span class="onOff__back"></span>
                     <span class="onOff__yesNo"></span>
@@ -20,37 +20,40 @@
                 <span class="sort__text yekan">
                     مرتب سازی بر اساس
                 </span>
-    <select>
-        <option>قیمت</option>
-        <option>پر بازدیدترین</option>
-        <option>جدیدترین</option>
-        <option>پیشنهاد ویژه</option>
-        <option>پر فروش ترین</option>
+    <select name="orderType1" onchange="dosearch();">
+        <option value="1">قیمت</option>
+        <option value="2">پر بازدیدترین</option>
+        <option value="3">جدیدترین</option>
+        <option value="4">پیشنهاد ویژه</option>
+        <!--        <option value="5">پر فروش ترین</option>-->
     </select>
-    <select>
-        <option>سعودی</option>
-        <option>نزولی</option>
+    <select name="orderType2" onchange="dosearch();">
+        <option value="1">سعودی</option>
+        <option value="2">نزولی</option>
     </select>
     <span class="sort__text yekan">
-                        تعداد نمایش
-                    </span>
-    <select>
-        <option>24</option>
-        <option>36</option>
-        <option>48</option>
+        تعداد نمایش
+    </span>
+    <select id="pagination_limit" onchange="dosearch();">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
     </select>
 </div>
+
 <div id="search__pagination">
-                <span class="search__pagination-next yekan">
-                    صفحه بعد
-                </span>
+    <span class="search__pagination-next yekan" onclick="dosearch(current_page+1)">
+        صفحه بعد
+    </span>
     <ul>
         <li>1</li>
-        <li>2</li>
+        <!--<li onclick="pagination(this)" class="active">1</li>
+        <li onclick="pagination(this)">2</li>-->
     </ul>
-    <span class="search__pagination-prev yekan">
-                    صفحه قبل
-                </span>
+    <span class="search__pagination-prev yekan" onclick="dosearch(current_page-1)">
+        صفحه قبل
+    </span>
 </div>
 <script>
     $('.onOff').click(function () {
@@ -60,6 +63,7 @@
         } else {
             $('.onOff__yesNo', this).animate({'left': '5px'}, 400);
         }
+        dosearch();
     })
 
     $('#search__displayType1').click(function () {
@@ -73,5 +77,13 @@
         $(this).addClass('displayType2Active');
         $('#search__displayType1').removeClass('displayType1Active')
     })
+
+    function pagination(tag,page) {
+        let liTag = $(tag);
+        $('#search__pagination ul li').removeClass('active');
+        liTag.addClass('active');
+        dosearch(page);
+    }
+
     //search
 </script>
