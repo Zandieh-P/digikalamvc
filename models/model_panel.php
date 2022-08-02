@@ -211,4 +211,9 @@ class model_panel extends Model
         }
         header('location:'.URL.'panel/changepass?error='.$error);
     }
+
+    function logout(){
+        self::sessionInit();
+        unset($_SESSION['userId']);
+    }
 }

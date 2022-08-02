@@ -8,19 +8,38 @@
     <script src="public/js/jquery-3.6.0.min.js"></script>
     <!--    <script src="public/https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script><style>-->
 </head>
-<body style="background:<?=body_color?>;">
+<body style="background:<?= body_color ?>;">
 <header>
     <div id="header">
         <div id="header_right">
             <div id="header_right_top">
+                <?php
+                Model::sessionInit();
+                $userId=Model::sessionGet('userId');
+                if($userId==false){ ?>
                 <span id="header_right_top_lock"></span>
                 <a class="yekan font-sm" href="<?= URL ?>login">
-                    فروشگاه اینترنتی دیجی کالا، وارد شوید
+                    فروشگاه اینترنتی دیجی کالا > وارد شوید
                 </a>
                 <span id="header_right_top_login"></span>
                 <a class="yekan font-sm" href="<?= URL ?>register">
                     ثبت نام کنید
                 </a>
+                <?php }else { ?>
+                    <span id="header_right_top_lock"></span>
+                    <a class="yekan font-sm">
+                        خوش آمدید!
+                    </a>
+                    <span id="header_right_top_login"></span>
+                    <a class="yekan font-sm" href="<?= URL ?>panel">
+                        مشاهده پنل کاربری
+                    </a>
+                    <a> / </a>
+<!--                    <span id="header_right_top_login"></span>-->
+                    <a class="yekan font-sm" href="<?= URL ?>panel/logout">
+                        خروج
+                    </a>
+                    <?php } ?>
             </div>
             <div id="header_right_bottom">
                 <a id="basket_top" href="<?= URL ?>showcart">
@@ -47,8 +66,141 @@
 </header>
 <nav id="menu__top__nav" style="background: <?= menu_color ?>;">
     <div id="menu__top">
-        <ul>
-            <li data-time="1">
+        <ul><!--level1-->
+            <?php
+            $model = new Model;
+            $Menu = $model->getMenu();
+            //            print_r($Menu);
+            if (sizeof($Menu) > 0) {
+                foreach ($Menu as $level1) { ?>
+                <li data-time="<?= $level1['id'] ?>">
+                    <a class="yekan">
+                        <?= $level1['title'] ?>
+                        <span class="menu__down__icon"></span>
+                    </a>
+                    <ul><!--level2-->
+                    <?php
+                    if (isset($level1['children'])) {
+                        $children = $level1['children'];
+                        foreach ($children as $level2) { ?>
+                            <li data-time="<?= $level2['id'] ?>">
+                                <a class="yekan font-sm">
+                                    <?= $level2['title'] ?>
+                                </a>
+                                <div class="submenu3">
+                                    <!--                                    <div class="top__menu3__col">-->
+                                    <ul class="top__menu3__col top__menu3__col__ul">
+                                        <?php
+                                        if (isset($level2['children'])) {
+                                            $children2 = $level2['children'];
+                                            $i = 1;
+                                            foreach ($children2 as $level3) {
+                                                if ($i % 10 == 0){ ?>
+                                    </ul>
+                                    <ul class="top__menu3__col top__menu3__col__ul">
+                                                <?php } ?>
+                                        <li class="top__menu3__col__ul__li yekan font-sm"><?= $level3['title'] ?></li>
+                                                <?php
+                                                $i++;
+                                                if (isset($level3['children'])) {
+                                                    $children3 = $level3['children'];
+                                                    foreach ($children3 as $level4) {
+                                                        if ($i % 10 == 0){ ?>
+                                    </ul>
+                                    <ul class="top__menu3__col top__menu3__col__ul">
+                                                        <?php } ?>
+
+                                        <li class="yekan font-sm">َ<?= $level4['title'] ?></li>
+                                                    <?php
+                                                    $i++;
+                                                    }
+                                                }
+                                            }
+                                        } ?>
+
+                                        <!--<li class="yekan font-sm">گوشی موبایل</li>
+                                        <li class="yekan font-sm">َApple</li>
+                                        <li class="yekan font-sm">Samsung</li>-->
+
+                                    </ul>
+                                    <!--                                    </div>-->
+                                    <!--<div class="top__menu3__col">
+                                        <ul class="top__menu3__col__ul">
+                                            <li class="yekan font-sm">گوشی موبایل</li>
+                                            <li class="yekan font-sm">َApple</li>
+                                            <li class="yekan font-sm">Samsung</li>
+                                        </ul>
+                                    </div>
+                                    <div class="top__menu3__col"></div>
+                                    <div class="top__menu3__col"></div>
+                                    <div class="top__menu3__col"></div>-->
+                                    <img id="top__menu3__img__mobile" src="public/images/mobile.jpg" alt="mobile">
+                                </div>
+                            </li>
+                        <?php } ?>
+
+                        <!--<li data-time="3">
+                            <a class="yekan font-sm">
+                                موبایل
+                            </a>
+                            <div class="submenu3">
+                                <div class="top__menu3__col">
+                                    <ul class="top__menu3__col__ul">
+                                        <li class="yekan font-sm">گوشی موبایل</li>
+                                        <li class="yekan font-sm">َApple</li>
+                                        <li class="yekan font-sm">Samsung</li>
+                                    </ul>
+                                </div>
+                                <div class="top__menu3__col"></div>
+                                <div class="top__menu3__col"></div>
+                                <div class="top__menu3__col"></div>
+                                <img id="top__menu3__img__mobile" src="public/images/mobile.jpg" alt="mobile">
+                            </div>
+                        </li>
+                        <li data-time="4">
+                            <a class="yekan font-sm">
+                                تبلت و کتابخوان
+                            </a>
+                            <div class="submenu3">
+                                <div class="top__menu3__col">
+                                    <ul class="top__menu3__col__ul" style="padding: 10px;">
+                                        <li class="yekan font-sm">تبلت</li>
+                                        <li class="yekan font-sm">َApple</li>
+                                        <li class="yekan font-sm">Samsung</li>
+                                    </ul>
+                                </div>
+                                <div class="top__menu3__col"></div>
+                                <div class="top__menu3__col"></div>
+                                <div class="top__menu3__col"></div>
+                                <img id="top__menu3__img__tablet" src="public/images/tablet.jpg" alt="tablet">
+                            </div>
+                        </li>
+                        <li data-time="5">
+                            <a class="yekan font-sm">
+                                لپ تاپ
+                            </a>
+                            <div class="submenu3">
+                                <div class="top__menu3__col">
+                                    <ul class="top__menu3__col__ul" style="padding: 10px;">
+                                        <li class="yekan font-sm">لپ تاپ</li>
+                                        <li class="yekan font-sm">َApple</li>
+                                        <li class="yekan font-sm">Samsung</li>
+                                    </ul>
+                                </div>
+                                <div class="top__menu3__col"></div>
+                                <div class="top__menu3__col"></div>
+                                <div class="top__menu3__col"></div>
+                                <img id="top__menu3__img__laptop" src="public/images/lapTop.jpg" alt="lap top">
+                            </div>
+                        </li>-->
+
+                        </ul><!--level2-->
+                        </li>
+                    <?php }
+                }
+            } ?>
+
+            <!--<li data-time="1">
                 <a class="yekan">
                     کالای دیجیتال
                     <span class="menu__down__icon"></span>
@@ -147,8 +299,9 @@
                         </a>
                     </li>
                 </ul>
-            </li>
-        </ul>
+            </li>-->
+
+        </ul><!--level1-->
     </div>
 </nav>
 <script>

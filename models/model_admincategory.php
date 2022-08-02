@@ -2,7 +2,7 @@
 
 class model_admincategory extends Model
 {
-    public $allChildrenIds = [];
+    public array $allChildrenIds = [];
 
     function __construct()
     {

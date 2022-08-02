@@ -15,7 +15,7 @@ class Index extends Controller
         $latestProducts=$this->model->getLatestProducts();
         $slider2_items=$slider2[0];
         $date_end=$slider2[1];
-        $data=[$slider1,$slider2_items,$date_end,$onlyInDigikala,$mostViewed,$latestProducts];
+        $data= array($slider1,$slider2_items,$date_end,$onlyInDigikala,$mostViewed,$latestProducts);
         $this->view('index/index',$data);
     }
 

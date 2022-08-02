@@ -4,7 +4,7 @@ class App
 {
     public $controller = 'index';
     public $method = 'index';
-    public $params = [];
+    public $params = array();
 
     function __construct()
     {
@@ -27,7 +27,8 @@ class App
             $object = new $this->controller;
             $object->model($this->controller);
             if (method_exists($object, $this->method)) {
-                call_user_func_array([$object, $this->method], $this->params);
+                $arr=array($object, $this->method);
+                call_user_func_array($arr, $this->params);
             }
         }
     }

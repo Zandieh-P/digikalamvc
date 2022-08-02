@@ -6,7 +6,7 @@ class Controller
     {
     }
 
-    function view($viewUrl,$data=[],$noIncludeHeader='',$noIncludeFooter='')
+    function view($viewUrl,$data=array(),$noIncludeHeader='',$noIncludeFooter='')
     {
         if ($noIncludeHeader==''){
             require ('header.php');

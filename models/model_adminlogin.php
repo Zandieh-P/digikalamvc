@@ -1,12 +1,15 @@
 <?php
-class model_login extends Model{
+
+class model_adminlogin extends Model
+{
+
     function __construct()
     {
         parent::__construct();
     }
 
-    function index(){
-
+    function index()
+    {
     }
 
     function checkUser($formData=[]){

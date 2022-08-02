@@ -86,5 +86,11 @@ class Panel extends Controller
         $data=$_POST;
         $this->model->editPass($data);
 //        header('location:'.URL.'panel/profile');
+        header('location:'.URL.'panel/profile');
+    }
+
+    function logout(){
+        $this->model->logout();
+        header('location:'.URL.'index');
     }
 }

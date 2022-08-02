@@ -3,13 +3,14 @@
 class Model
 {
     public static $conn = '';
+    public array $totalMenu = array();
 
     function __construct()
     {
         $servername = 'localhost';
-        $dbname = 'digi_mvc';
         $username = 'root';
         $password = '';
+        $dbname = 'digi_mvc';
         $attr = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES "utf8"');
         self::$conn = new PDO('mysql:host=' . $servername . ';dbname=' . $dbname, $username, $password, $attr);
         self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -27,7 +28,7 @@ class Model
 //        $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $options = $stmt->fetchAll();
-        $options_new = [];
+        $options_new = array();
         foreach ($options as $option) {
             $setting = $option['setting'];
             $value = $option['value'];
@@ -41,10 +42,10 @@ class Model
     {
         $price_discount = ($discount * $price) / 100;
         $price_total = $price - $price_discount;
-        return [$price_discount, $price_total];
+        return array($price_discount, $price_total);
     }
 
-    function doSelect($sql, $values = [], $fetch = '', $fetchStyle = PDO::FETCH_ASSOC)
+    function doSelect($sql, $values =array(), $fetch = '', $fetchStyle = PDO::FETCH_ASSOC)
     {
         $stmt = self::$conn->prepare($sql);
         foreach ($values as $key => $value) {
@@ -59,7 +60,7 @@ class Model
         return $result;
     }
 
-    function doQuery($sql, $values = [])
+    function doQuery($sql, $values = array())
     {
         $stmt = self::$conn->prepare($sql);
         foreach ($values as $key => $value) {
@@ -166,7 +167,8 @@ class Model
 //        $sql='select tbl_basket.tedad,tbl_basket.id as basketRow,tbl_product.* from tbl_basket JOIN tbl_product ON tbl_basket.idproduct=tbl_product.id where cookie=?';
 //        $sql='select * from tbl_basket where cookie=?';
         $cookie = self::getBasketCookie();
-        $result = $this->doSelect($sql, [$cookie]);
+        $params=array($cookie);
+        $result = $this->doSelect($sql, $params);
         $priceTotalAll = 0;
         $discountTotalAll = 0;
         foreach ($result as $key => $row) {
@@ -181,7 +183,7 @@ class Model
             $priceTotalAll = ceil($priceTotalAll);
             $result[$key]['discountTotal'] = $discountTotal;
         }
-        return [$result, $priceTotalAll, $discountTotalAll];
+        return array($result, $priceTotalAll, $discountTotalAll);
     }
 
     function calculatePostPrice($cityId = 0)
@@ -223,7 +225,7 @@ class Model
         $post_price_pishtaz = $priceTotalAll / 4;
         $post_price_sefareshi = $priceTotalAll / 5;
 
-        $data = ['pishtaz' => ($post_price_pishtaz / 10), 'sefareshi' => ($post_price_sefareshi / 10)];
+        $data = array('pishtaz' => ($post_price_pishtaz / 10), 'sefareshi' => ($post_price_sefareshi / 10));
         return $data;
     }
 
@@ -263,6 +265,32 @@ class Model
             $date=$date->format('Y/m/d');
         }
         return $date;
+    }
+
+    function getMenu($parentId=0){
+        $sql='select * from tbl_category where parent=?';
+        $result=$this->doSelect($sql,array($parentId));
+        foreach ($result as $row){
+            $children=$this->getMenu($row['id']);
+            if(@sizeof($children)>0){
+                $row['children']=$children;
+            }
+            @$data[]=$row;
+        }
+        return @$data;
+    }
+
+    public static function getUserLevel(){
+        self::sessionInit();
+        $userId=self::sessionGet('userId');
+        $sql = 'select * from tbl_user where id=?';
+        $userInfo = self::doSelect($sql, array($userId),1);
+        if (isset($userInfo['level'])){
+            return $userInfo['level'];
+        }else{
+            return 0;
+        }
+
     }
 }
 

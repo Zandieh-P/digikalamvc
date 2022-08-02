@@ -249,10 +249,15 @@ header {
     padding-right: 15px;
 }
 
-.top__menu3__col__ul li:first-child {
+.top__menu3__col__ul .top__menu3__col__ul__li {
     padding-right: 5px;
     color: #6d95c6;
 }
+
+/*.top__menu3__col__ul li:first-child {
+    padding-right: 5px;
+    color: #6d95c6;
+}*/
 
 .menu__down__icon {
     width: 11px;

@@ -14,13 +14,13 @@ class Payment
     {
         $client = new nusoap_client(zarinpalWebAddress, 'wsdl');
         $client->soap_defencoding = 'UTF-8';
-        $params = [
+        $params = array(
             'MerchantID' => $this->zarinpalMerchantID,
             'Amount' => $Amount,
             'Description' => $Description,
             'Email' => $Email,
             'Mobile' => $Mobile,
-            'CallbackURL' => $this->zarinpalCallbackURL];
+            'CallbackURL' => $this->zarinpalCallbackURL);
         $result = $client->call('PaymentRequest', $params);
 
         $Status = $result['Status'];
@@ -30,20 +30,20 @@ class Payment
         }
         if ($result['Status'] == 100) {
             $Authority = $result['Authority'];
-            return [$result['Status'], $result['RefID']];
+            return array($result['Status'], $result['RefID']);
         }
-        return ['Status' => $Status,'Authority' => $Authority];
+        return array('Status' => $Status,'Authority' => $Authority);
     }
 
     function zarinpalVerify($Amount, $Authority)
     {
         $client = new nusoap_client(zarinpalWebAddress, 'wsdl');
         $client->soap_defencoding = 'UTF-8';
-        $result = $client->call('PaymentVerification', [
+        $result = $client->call('PaymentVerification', array(
             'MerchantID' => $this->zarinpalMerchantID,
             'Amount' => $Amount,
             'Authority' => $Authority
-        ]);
+        ));
         $Status = $result['Status'];
         $Error = '';
         $RefID = '';
@@ -53,8 +53,8 @@ class Payment
         }
         if ($result['Status'] == 100) {
             $RefID = $result['RefID'];
-            return [$result['Status'], $result['RefID']];
+            return array($result['Status'], $result['RefID']);
         }
-        return ['Status' => $Status, 'Error' => $Error, 'RefID' => $RefID];
+        return array('Status' => $Status, 'Error' => $Error, 'RefID' => $RefID);
     }
 }

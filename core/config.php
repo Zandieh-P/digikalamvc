@@ -16,7 +16,7 @@ define('callbackURL', 'http://localhost/digikalamvc/checkout');
 //define('callbackURL' , 'http://localhost/digikalamvc/verify.php');
 define('zarinpalWebAddress', 'https://zarinpal.com/pg/services/WebGate/wsdl');
 define('zarinpalStartPay', 'https://zarinpal.com/pg/StartPay/');
-$zarinpalErrors = [
+$zarinpalErrors = array(
     '-1' => 'اطلاعات ارسال شده ناقص است',
     '-2' => 'IP یا مرچنت کد صحیح نیست',
     '-3' => 'رقم باید بالای 100 تومان باشد',
@@ -28,7 +28,7 @@ $zarinpalErrors = [
     '-54' => 'درخواست مورد نظر آرشیو شده',
     '100' => 'عملیات با موفقیت انجام شده',
     '101' => 'عملیات پرداخت با موفقیت انجام شده ولی قبلا عملیات PaymentVerification بر روی این تراکنش انجام شده است'
-];
+);
 define('zarinpalErrors', serialize($zarinpalErrors));
 
 
