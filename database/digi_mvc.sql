@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2022 at 04:00 PM
+-- Generation Time: Aug 02, 2022 at 02:25 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -115,7 +115,8 @@ INSERT INTO `tbl_basket` (`id`, `cookie`, `idproduct`, `tedad`, `color`, `guaran
 (4, '1658388683', 25, 2, 1, 4),
 (5, '1658388683', 25, 2, 3, 4),
 (6, '1658388683', 25, 1, 4, 4),
-(7, '1658561826', 25, 2, 3, 3);
+(7, '1658561826', 25, 2, 3, 3),
+(8, '1659344406', 25, 3, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -138,7 +139,41 @@ INSERT INTO `tbl_category` (`id`, `title`, `parent`) VALUES
 (2, 'موبایل', 1),
 (35, 'گوشی موبایل', 2),
 (36, 'تبلت', 1),
-(37, 'لپ تاپ', 1);
+(37, 'لپ تاپ', 1),
+(38, 'apple', 35),
+(39, 'Samsung', 35),
+(40, 'Xiaomi', 35),
+(41, 'لوازم آشپزخانه', 0),
+(42, 'دوربین', 1),
+(43, 'دوربین عکاسی', 42),
+(44, 'DSLR', 43),
+(45, 'شبه SLR', 43),
+(46, 'برند دوربین', 42),
+(47, 'کانن', 46),
+(48, 'نیکون', 46),
+(49, 'apple', 35),
+(50, 'apple', 35),
+(51, 'apple', 35),
+(52, 'apple', 35),
+(53, 'apple', 35),
+(54, 'apple', 35),
+(55, 'apple', 35),
+(58, 'apple', 35),
+(59, 'apple', 35),
+(60, 'لوازم جانبی لپ تاپ', 37),
+(61, 'کیف و کاور لپ تاپ', 60),
+(62, 'ماوس(موشواره)', 60),
+(63, 'لپ تاپ و الترابوک', 37),
+(64, 'Apple', 63),
+(65, 'Asus', 63),
+(66, 'لوازم جانبی موبایل', 2),
+(67, 'خش گیر صفحه نمایش', 66),
+(68, 'شارژر موبایل', 66),
+(69, 'تبلت', 36),
+(70, 'لوازم جانبی تبلت', 36),
+(71, 'Asus', 69),
+(72, 'Dell', 69),
+(73, 'کیف و کاور تبلت', 70);
 
 -- --------------------------------------------------------
 
@@ -625,15 +660,19 @@ CREATE TABLE `tbl_user` (
   `address` text COLLATE utf8mb4_persian_ci NOT NULL,
   `jensiat` int(1) NOT NULL,
   `khabarname` int(1) NOT NULL,
-  `cart` varchar(20) COLLATE utf8mb4_persian_ci NOT NULL
+  `cart` varchar(20) COLLATE utf8mb4_persian_ci NOT NULL,
+  `level` int(1) NOT NULL,
+  `tarikh` varchar(30) COLLATE utf8mb4_persian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
 
 --
 -- Dumping data for table `tbl_user`
 --
 
-INSERT INTO `tbl_user` (`id`, `email`, `password`, `family`, `code_meli`, `tel`, `mobile`, `tavalod`, `address`, `jensiat`, `khabarname`, `cart`) VALUES
-(1, 'info@digikala.ir', '1234', 'دیجی کالا', '394624912', '436478364', '0912843488', '1363/12/15', 'fkjgirsaludfhguifvauifhgiuadrhgiudfhg', 1, 1, '348723927');
+INSERT INTO `tbl_user` (`id`, `email`, `password`, `family`, `code_meli`, `tel`, `mobile`, `tavalod`, `address`, `jensiat`, `khabarname`, `cart`, `level`, `tarikh`) VALUES
+(1, 'info@digikalaAdmin.ir', '123456', 'دیجی کالا ادمین', '394624912', '436478364', '0912843488', '1362/12/15', 'fkjgirsaludfhguifvauifhgiuadrhgiudfhg', 1, 1, '348723927', 1, ''),
+(2, 'info@digikalaStaf.ir', '12345', 'دیجی کالا کارمند', '394624912', '436478364', '0912843488', '1362/06/15', 'fkjgirsaludfhguifvauifhgiuadrhgiudfhg', 1, 1, '348723927', 2, ''),
+(3, 'info@digikala.ir', '1234', 'دیجی کالا', '394624912', '436478364', '0912843488', '1363/12/15', 'fkjgirsaludfhguifvauifhgiuadrhgiudfhg', 1, 1, '348723927', 3, '');
 
 -- --------------------------------------------------------
 
@@ -662,6 +701,26 @@ CREATE TABLE `tbl_user_address` (
 
 INSERT INTO `tbl_user_address` (`id`, `userid`, `family`, `mobile`, `tel`, `state`, `city`, `neighbour`, `address`, `postalcode`, `state_name`, `city_name`) VALUES
 (1, 1, 'محمدی', '092394372', '2233455', 'تهران', 'ری', 'ری', 'یسنتبسخباسمیتبمسینب', '237423980734', 'تهران', 'تهران');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_user_level`
+--
+
+CREATE TABLE `tbl_user_level` (
+  `id` int(255) NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_persian_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+
+--
+-- Dumping data for table `tbl_user_level`
+--
+
+INSERT INTO `tbl_user_level` (`id`, `title`) VALUES
+(1, 'مدیر اصلی'),
+(2, 'کارمند'),
+(3, 'کاربر عادی');
 
 --
 -- Indexes for dumped tables
@@ -812,6 +871,12 @@ ALTER TABLE `tbl_user_address`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_user_level`
+--
+ALTER TABLE `tbl_user_level`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -831,13 +896,13 @@ ALTER TABLE `tbl_attr_val`
 -- AUTO_INCREMENT for table `tbl_basket`
 --
 ALTER TABLE `tbl_basket`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_category`
 --
 ALTER TABLE `tbl_category`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `tbl_code`
@@ -951,13 +1016,19 @@ ALTER TABLE `tbl_slider1`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_address`
 --
 ALTER TABLE `tbl_user_address`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_user_level`
+--
+ALTER TABLE `tbl_user_level`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
